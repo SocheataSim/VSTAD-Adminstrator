@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional video upload dashboard with drag-and-drop functionality, dark mode support, and responsive design">
+    <meta name="keywords" content="video upload, dashboard, media management">
+    <title>Video Upload Dashboard - Media Management Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../src/output.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .animate-slideIn { animation: slideIn 0.4s ease-out; }
+        .drag-over { background-color: rgba(59, 130, 246, 0.1); border-color: #3b82f6; }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Header -->
+    </header><div class="flex h-screen">
+      <!-- Mobile Sidebar Overlay -->
+      <div
+        id="overlay"
+        class="fixed inset-0 bg-black/40 z-40 hidden"
+        onclick="toggleSidebar()"
+      ></div>
+
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="fixed md:static inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300"
+      >
+        <div class="p-6 border-b border-gray-200 flex justify-between md:block">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-chart-line text-white text-sm"></i>
+            </div>
+            <span class="text-lg font-bold text-gray-800">Dashboard</span>
+          </div>
+
+          <!-- Close on mobile -->
+          <button
+            class="md:hidden text-gray-700 text-xl"
+            onclick="toggleSidebar()"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <nav class="p-6 space-y-2">
+          <a
+            href="./overview_page.html"
+            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"
+          >
+            <i class="fas fa-home w-5"></i> <span>Overview</span>
+          </a>
+
+          <a
+            href="./Users_management.html"
+            class="flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg"
+          >
+            <i class="fas fa-users w-5"></i> <span>User Management</span>
+          </a>
+
+          <a
+            href="./Videos_management.html"
+            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"
+          >
+            <i class="fa-regular fa-circle-play w-5"></i>
+            <span>Video Management</span>
+          </a>
+
+          <a
+            href="./Playlist_management.html"
+            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"
+          >
+            <i class="fas fa-list w-5"></i> <span>Playlist Management</span>
+          </a>
+
+          <a
+            href="Upload_video_page.html"
+            class="flex items-center gap-3 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-50 rounded-lg font-medium"
+          >
+            <i class="fas fa-cloud-upload-alt w-5"></i>
+            <span>Upload Video</span>
+          </a>
+        </nav>
+
+        <div
+          class="absolute bottom-6 w-full px-6 border-t border-gray-200 pt-6"
+        >
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"
+          >
+            <i class="fa-solid fa-palette w-5"></i><span>Theme</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-red-50 text-red-600 rounded-lg"
+          >
+            <i class="fas fa-sign-out-alt w-5"></i><span>Log Out</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+    <main class="flex-1 overflow-auto">
+        <!-- Header -->
+        <header
+          class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-20"
+        >
+          <div class="flex items-center justify-between px-4 md:px-8 py-4">
+            <!-- Hamburger for mobile -->
+            <button
+              class="md:hidden text-gray-700 text-2xl mr-3"
+              onclick="toggleSidebar()"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Search -->
+            <div class="flex items-center gap-4 flex-1 max-w-md">
+              <div class="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                />
+                <i
+                  class="fas fa-search absolute right-3 top-2.5 text-gray-400"
+                ></i>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div
+                class="flex items-center gap-2 text-black px-4 py-2 rounded-lg text-sm font-medium"
+              >
+                <img
+                  class="w-8 rounded-full"
+                  src="../asset/logo.png"
+                  alt="Logo vstad"
+                />
+                <span>VSTAD</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+            <!-- Main Content -->
+        <main class=">
+            <div class="max-w-4xl mx-auto p-8">
+            <div class="bg-white shadow-md p-8">
+                <h2 class="text-2xl font-semibold mb-8">Video Upload</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Left Column - Upload Area -->
+                <div class="space-y-4">
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-blue-400 transition-colors">
+                        <div class="flex flex-col items-center space-y-4">
+                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="text-sm text-gray-600">Click or drag file to this area to upload</p>
+                            <button class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors" id="uploadForm">
+                                Browse
+                            </button>
+                        </div>
+                        <input type="file" class="hidden" accept="video/*">
+                    </div>
+                </div>
+                
+                <!-- Right Column - Form Fields -->
+                <div class="space-y-4">
+                    <!-- Title Field -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="">
+                    </div>
+                    
+                    <!-- Description Field -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" placeholder="Write a detailed description"></textarea>
+                    </div>
+                    
+                    <!-- Thumbnail Field -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Thumbnail</label>
+                        <p class="text-xs text-gray-500 mb-2">Add a thumbnail that stands out and draws viewers attention. <a href="#" class="text-blue-600 hover:underline">Learn more</a></p>
+                        <div class="border-2 border-dashed border-gray-300 rounded-md p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
+                            <svg class="w-10 h-10 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p class="text-xs text-gray-500 mt-2">Upload File</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-3 mt-8 pt-6 border-t">
+                <button class="px-8 py-2.5 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors font-medium">
+                    Cancel
+                </button>
+                <button class="px-8 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium">
+                    Public
+                </button>
+            </div>
+        </div>
+        </div>
+     </main>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed bottom-4 right-4 bg-green-600 text-white px-6 py-4 rounded-lg shadow-lg animate-fadeIn z-50">
+        <div class="flex items-center space-x-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span id="toastMessage">Success!</span>
+        </div>
+    </div>
+    <script src="../js/darkmode.js"></script>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const html = document.documentElement;
+        
+        // Initialize dark mode
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+        } else {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            
+            if (isDark) {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // User Menu Dropdown
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userMenu = document.getElementById('userMenu');
+
+        userMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', () => {
+            userMenu.classList.add('hidden');
+        });
+
+        // File Upload Handling
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const browseBtn = document.getElementById('browseBtn');
+        const filePreview = document.getElementById('filePreview');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const removeFile = document.getElementById('removeFile');
+
+        let selectedFile = null;
+
+        browseBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                selectedFile = files[0];
+                fileName.textContent = selectedFile.name;
+                fileSize.textContent = formatFileSize(selectedFile.size);
+                filePreview.classList.remove('hidden');
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        removeFile.addEventListener('click', () => {
+            selectedFile = null;
+            fileInput.value = '';
+            filePreview.classList.add('hidden');
+        });
+
+        // Form Submission
+        const uploadForm = document.getElementById('uploadForm');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        uploadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (!selectedFile) {
+                showToast('Please select a video file', 'error');
+                return;
+            }
+
+            const title = document.getElementById('title').value;
+            if (!title.trim()) {
+                showToast('Please enter a title', 'error');
+                return;
+            }
+
+            // Simulate upload
+            showToast('Video uploaded successfully!', 'success');
+            
+            setTimeout(() => {
+                uploadForm.reset();
+                filePreview.classList.add('hidden');
+                selectedFile = null;
+            }, 2000);
+        });
+
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden', 'bg-green-600', 'bg-red-600');
+            toast.classList.add(type === 'success' ? 'bg-green-600' : 'bg-red-600');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Cancel Button
+        document.getElementById('cancelBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
+                uploadForm.reset();
+                filePreview.classList.add('hidden');
+                selectedFile = null;
+            }
+        });
+    </script>
+</body>
+</html>
