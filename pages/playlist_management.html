@@ -1,22 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VSTAD Platform</title>
-    <meta name="description" content="A video-sharing platform where you can watch, like, comment, and share videos uploaded by our community." />
-    <meta name="keywords" content="video platform, VSTAD, watch videos, share platform, creators, like videos, comment" />
+    <meta
+      name="description"
+      content="A video-sharing platform where you can watch, like, comment, and share videos uploaded by our community."
+    />
+    <meta
+      name="keywords"
+      content="video platform, VSTAD, watch videos, share platform, creators, like videos, comment"
+    />
     <meta name="author" content="VSTAD Platform" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="VSTAD Platform" />
-    <meta property="og:description" content="Discover trending videos, like and comment, and connect with VSTAD." />
-    <meta property="og:image" content="https://i.pinimg.com/736x/5e/77/09/5e7709769cd1d2d23c610653211e443f.jpg" />
+    <meta
+      property="og:description"
+      content="Discover trending videos, like and comment, and connect with VSTAD."
+    />
+    <meta
+      property="og:image"
+      content="https://i.pinimg.com/736x/5e/77/09/5e7709769cd1d2d23c610653211e443f.jpg"
+    />
     <meta property="og:site_name" content="VSTAD Platform" />
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../src/output.css">
-</head>
-<body>
-    <p class="text-acent-color">Hello</p>
-    <p class="font-khmer">ហេ</p>
-</body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../src/output.css" />
+
+    <!-- Load Lucide Icons for vector graphics -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <script>
+      // Initialize Tailwind configuration if needed, but the user's provided code uses standard colors.
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom font import (Inter is the default for Tailwind) */
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7f9fc; /* Light background as seen in the image */
+      }
+      /* Custom scrollbar styling for better aesthetics */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1; /* slate-300 */
+        border-radius: 3px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8; /* slate-400 */
+      }
+      /* Utility to make the sidebar appear instantly on mobile toggle */
+      .is-open {
+        transform: translateX(0) !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="flex flex-1 min-h-screen">
+      <!-- Sidebar -->
+      <nav
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-30 w-64 bg-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out border-r border-gray-200 flex flex-col pt-4 pb-6 shadow-xl lg:shadow-none custom-scrollbar overflow-y-auto"
+      >
+        <div
+          class="flex items-center justify-between px-4 pb-4 border-b lg:hidden"
+        >
+          <div class="text-xl font-bold text-gray-800">Dashboard</div>
+          <button
+            id="sidebar-close"
+            class="p-2 text-gray-700 rounded-lg hover:bg-gray-100"
+          >
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <div class="hidden lg:block px-4 pb-6">
+          <div class="text-xl font-extrabold text-gray-900">Dashboard</div>
+        </div>
+
+        <div class="flex-1 px-4 space-y-2 pt-4">
+          <!-- Active Link: Overview -->
+          <a
+            href="#"
+            class="flex items-center p-3 text-sm font-semibold text-blue-700 bg-blue-50 rounded-xl transition duration-150"
+          >
+            <i data-lucide="pie-chart" class="w-5 h-5 mr-3"></i>
+            Overview
+          </a>
+          <a
+            href="#"
+            class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150"
+          >
+            <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+            Users Management
+          </a>
+          <a
+            href="#"
+            class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150"
+          >
+            <i data-lucide="video" class="w-5 h-5 mr-3"></i>
+            Videos Management
+          </a>
+          <a
+            href="#"
+            class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150"
+          >
+            <i data-lucide="list-video" class="w-5 h-5 mr-3"></i>
+            Playlist Management
+          </a>
+          <a
+            href="#"
+            class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150"
+          >
+            <i data-lucide="upload" class="w-5 h-5 mr-3"></i>
+            Upload Video
+          </a>
+        </div>
+
+        <div class="px-4 pt-6 border-t border-gray-200 mt-auto">
+          <a
+            href="#"
+            class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150"
+          >
+            <i data-lucide="palette" class="w-5 h-5 mr-3"></i>
+            Themes
+          </a>
+          <a
+            href="#"
+            class="flex items-center p-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl mt-2 transition duration-150"
+          >
+            <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
+            Log Out
+          </a>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 lg:ml-64 p-4 md:p-8 custom-scrollbar overflow-y-auto">
+        <!-- Header/Search Bar -->
+        <header
+          class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4"
+        >
+          <div class="relative w-full sm:w-80 lg:w-96">
+            <input
+              type="text"
+              placeholder="Search"
+              class="w-full py-3 pl-12 pr-4 text-sm bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <i
+              data-lucide="search"
+              class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+            ></i>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <span class="text-sm font-semibold text-gray-800 hidden sm:inline"
+              >VSTAD</span
+            >
+            <div
+              class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm overflow-hidden border-2 border-white shadow-md"
+            >
+              <img
+                src="../logo.png"
+                alt="VSTAD User"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <!-- Mobile Sidebar Toggle -->
+            <button
+              id="sidebar-open"
+              class="lg:hidden p-2 text-gray-700 rounded-lg hover:bg-gray-100"
+            >
+              <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+          </div>
+        </header>
+
+        <!-- Category Table Card -->
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden mt-8">
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <!-- Table Header: Using the standardized primary color -->
+              <thead class="bg-primary-600 text-white">
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider rounded-tl-xl"
+                  >
+                    Category Name
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider"
+                  >
+                    Number of Videos
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider rounded-tr-xl"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <!-- Table Body - Updated to match the category list and counts from the image -->
+              <tbody class="divide-y divide-gray-100 text-gray-700">
+                <!-- Data Rows -->
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900"
+                  >
+                    All Videos
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <!-- 'All' category is typically read-only, but we keep the buttons for consistency -->
+                    <button
+                      aria-label="Edit All"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete All"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Education
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit Education"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete Education"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Sports
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit Sports"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete Sports"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Travels
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit Travels"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete Travels"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Events
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit Events"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete Events"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Fun
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit Fun"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete Fun"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Team Building
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit Team Building"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete Team Building"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <!-- Additional rows to match the image -->
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    News
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit News"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete News"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Seminar
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">300</td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-right space-x-3"
+                  >
+                    <button
+                      aria-label="Edit Seminar"
+                      class="text-gray-400 hover:text-primary-600 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="pencil" class="w-4 h-4"></i>
+                    </button>
+                    <button
+                      aria-label="Delete Seminar"
+                      class="text-gray-400 hover:text-red-500 transition duration-150 p-1 rounded-full hover:bg-gray-100"
+                    >
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- JavaScript to initialize lucide icons -->
+    <script>
+      // Replace all data-lucide attributes with SVG icons
+      lucide.createIcons();
+    </script>
+  </body>
 </html>
