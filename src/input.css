@@ -1,1 +1,9 @@
 @import "tailwindcss";
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-khmer: "Kantumruy Pro", sans-serif;
+  --color-primary-color: #253C95;
+  --color-secondary-color: #E01F27;
+  --color-acent-color: #EAB308;
+  --color-background-hover: #D3D3D3;
+}
