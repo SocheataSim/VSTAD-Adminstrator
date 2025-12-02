@@ -1,22 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VSTAD Platform</title>
-    <meta name="description" content="A video-sharing platform where you can watch, like, comment, and share videos uploaded by our community." />
-    <meta name="keywords" content="video platform, VSTAD, watch videos, share platform, creators, like videos, comment" />
-    <meta name="author" content="VSTAD Platform" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="VSTAD Platform" />
-    <meta property="og:description" content="Discover trending videos, like and comment, and connect with VSTAD." />
-    <meta property="og:image" content="https://i.pinimg.com/736x/5e/77/09/5e7709769cd1d2d23c610653211e443f.jpg" />
-    <meta property="og:site_name" content="VSTAD Platform" />
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../src/output.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Admin Dashboard - Playlist Management</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Custom font configuration */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Ensure main content handles scrolling gracefully */
+    .main-content {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Custom scrollbar for better aesthetics, though not always necessary */
+    .main-content::-webkit-scrollbar {
+      width: 8px;
+      background-color: #f1f1f1;
+    }
+
+    .main-content::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    /* Custom styles to match the colorful icons and size */
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      /* Equivalent to w-9 */
+      height: 2.25rem;
+      /* Equivalent to h-9 */
+      border-radius: 9999px;
+      /* rounded-full */
+      transition: all 150ms ease-in-out;
+    }
+
+    .btn-view {
+      color: #10B981;
+      /* Green-500 */
+      background-color: #ECFDF5;
+      /* Green-50 */
+    }
+
+    .btn-view:hover {
+      color: #059669;
+      /* Green-600 */
+      background-color: #D1FAE5;
+      /* Green-100 */
+    }
+
+    .btn-edit {
+      color: #6366F1;
+      /* Indigo-500 */
+      background-color: #EEF2FF;
+      /* Indigo-50 */
+    }
+
+    .btn-edit:hover {
+      color: #4F46E5;
+      /* Indigo-600 */
+      background-color: #E0E7FF;
+      /* Indigo-100 */
+    }
+
+    .btn-delete {
+      color: #F87171;
+      /* Red-400 */
+      background-color: #FEF2F2;
+      /* Red-50 */
+    }
+
+    .btn-delete:hover {
+      color: #EF4444;
+      /* Red-500 */
+      background-color: #FEE2E2;
+      /* Red-100 */
+    }
+  </style>
 </head>
-<body>
-    <p class="text-acent-color">Hello</p>
-    <p class="font-khmer">ហេ</p>
+
+<body class="bg-gray-50 text-gray-800">
+
+
+
+
+
+
+
+
+  <div class="flex h-screen">
+
+    <!-- Mobile Sidebar Overlay (z-40) -->
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar (z-50) -->
+    <aside id="sidebar"
+      class="fixed md:static inset-y-0 left-0 w-64 bg-white shadow-xl z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 rounded-r-xl m-2">
+      <div class="p-6 border-b border-gray-100 flex justify-between items-center md:block">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <i class="fas fa-chart-bar text-white text-lg"></i>
+          </div>
+          <span class="text-xl font-extrabold text-gray-800">DASHBOARD</span>
+        </div>
+
+        <!-- Close button on mobile -->
+        <button class="md:hidden text-gray-700 text-2xl hover:text-blue-600 transition-colors" onclick="toggleSidebar()"
+          aria-label="Close sidebar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <nav class="p-4 space-y-1">
+        <h3 class="text-xs font-semibold uppercase text-gray-400 px-4 pt-2 pb-1">Menu</h3>
+        <!-- Navigation Links -->
+        <a href="#"
+          class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200">
+          <i class="fas fa-home w-5"></i> <span>Overview</span>
+        </a>
+
+        <a href="#"
+          class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200">
+          <i class="fas fa-users w-5"></i> <span>User Management</span>
+        </a>
+
+        <a href="#"
+          class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200">
+          <i class="fa-regular fa-circle-play w-5"></i>
+          <span>Video Management</span>
+        </a>
+
+        <!-- ACTIVE LINK: Playlist Management -->
+        <a href="#"
+          class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-semibold shadow-sm">
+          <i class="fas fa-list-ul w-5"></i> <span>Playlist Management</span>
+        </a>
+
+        <a href="#"
+          class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200">
+          <i class="fas fa-cloud-upload-alt w-5"></i>
+          <span>Upload Video</span>
+        </a>
+      </nav>
+
+      <div class="absolute bottom-4 w-full px-6 border-t border-gray-100 pt-4">
+        <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg">
+          <i class="fa-solid fa-palette"></i><span>Theme</span>
+        </a>
+
+        <a href="#"
+          class="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg font-medium transition-all duration-200 mt-1">
+          <i class="fas fa-sign-out-alt w-5"></i><span>Log Out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 main-content">
+
+      <!-- Header / Top Bar (z-30) -->
+      <header
+        class="bg-white sticky top-0 z-30 shadow-md md:shadow-sm rounded-b-xl mx-2 mt-2 md:mx-0 md:mt-0 md:rounded-none">
+        <div class="flex items-center justify-between px-4 md:px-8 py-3">
+          <!-- Hamburger for mobile -->
+          <button class="md:hidden text-gray-700 text-2xl mr-3 hover:text-blue-600 transition-colors"
+            onclick="toggleSidebar()" aria-label="Open sidebar">
+            <i class="fas fa-bars"></i>
+          </button>
+
+          <!-- Search Bar (Flex-1 on large screens, hidden on small for better focus) -->
+          <div class="flex items-center flex-1 max-w-lg">
+            <div class="relative w-full">
+              <input type="text" placeholder="Search playlists..."
+                class="w-full pl-4 pr-10 py-2 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
+              <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+            </div>
+          </div>
+
+          <!-- Profile/User Info -->
+          <div class="flex items-center gap-3 ml-4">
+            <button class="text-gray-500 hover:text-blue-600 transition-colors p-2 rounded-full hidden sm:block">
+              <i class="fas fa-bell text-lg"></i>
+            </button>
+
+            <div
+              class="flex items-center gap-2 text-black cursor-pointer hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors">
+              <img class="w-8 h-8 rounded-full object-cover" src="./logo.png"
+                onerror="this.onerror=null;this.src='https://placehold.co/100x100/4F46E5/ffffff?text=U';"
+                alt="User Avatar" />
+              <div class="text-sm hidden sm:block">
+                <span class="font-semibold block leading-none">VSTAD</span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="p-4 md:p-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
+          Playlist Management
+        </h1>
+
+        <!-- Controls and Add Button -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-3 sm:space-y-0">
+          <div class="flex space-x-3 w-full sm:w-auto">
+            <button id="create-playlist-btn"
+              class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors w-full sm:w-auto">
+              <i class="fas fa-plus mr-2"></i>Create New Playlist
+            </button>
+          </div>
+          <div class="text-sm text-gray-600">
+            Total Playlists: <span class="font-bold text-gray-800">45</span>
+          </div>
+        </div>
+
+        <div id="playlist-feedback" class="mb-6 p-4 rounded-lg font-medium hidden flex items-center" role="alert">
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-x-auto border border-gray-100">
+
+          <!-- Responsive Table Wrapper for Playlists -->
+          <div class="bg-white rounded-xl shadow-lg overflow-x-auto border border-gray-100">
+            <table class="w-full min-w-[800px]">
+              <thead>
+                <tr class="bg-gray-100 text-gray-600 border-b border-gray-200">
+                  <th class="px-6 py-4 text-left w-12">
+                    <input type="checkbox" class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" />
+                  </th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold">
+                    Playlist Title
+                  </th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold hidden md:table-cell">
+                    Creator
+                  </th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold hidden sm:table-cell">
+                    Video Count
+                  </th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold">
+                    Status
+                  </th>
+                  <th class="px-6 py-4 text-center text-sm font-semibold w-36">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="table-body" class="divide-y divide-gray-100">
+                <!-- Dummy Playlist List -->
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4"><input type="checkbox"
+                      class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" /></td>
+                  <td class="px-6 py-4 font-medium text-gray-900 truncate max-w-xs">Complete Frontend Development Guide
+                    (2025)</td>
+                  <td class="px-6 py-4 text-gray-600 hidden md:table-cell">Sarah Connor</td>
+                  <td class="px-6 py-4 text-gray-600 hidden sm:table-cell">24 Videos</td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full inline-block">Public</span>
+                  </td>
+                  <td class="px-6 py-4 text-center space-x-2 flex justify-center items-center">
+                    <button title="View Playlist Videos" class="action-btn btn-view">
+                      <i class="fas fa-eye text-lg"></i>
+                    </button>
+                    <button title="Edit Playlist" class="action-btn btn-edit">
+                      <i class="fas fa-edit text-lg"></i>
+                    </button>
+                    <button title="Delete Playlist" class="action-btn btn-delete">
+                      <i class="fas fa-trash-alt text-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4"><input type="checkbox"
+                      class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" /></td>
+                  <td class="px-6 py-4 font-medium text-gray-900 truncate max-w-xs">Advanced Database Management: SQL &
+                    NoSQL</td>
+                  <td class="px-6 py-4 text-gray-600 hidden md:table-cell">Alex Chen</td>
+                  <td class="px-6 py-4 text-gray-600 hidden sm:table-cell">10 Videos</td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full inline-block">Private</span>
+                  </td>
+                  <td class="px-6 py-4 text-center space-x-2 flex justify-center items-center">
+                    <button title="View Playlist Videos" class="action-btn btn-view">
+                      <i class="fas fa-eye text-lg"></i>
+                    </button>
+                    <button title="Edit Playlist" class="action-btn btn-edit">
+                      <i class="fas fa-edit text-lg"></i>
+                    </button>
+                    <button title="Delete Playlist" class="action-btn btn-delete">
+                      <i class="fas fa-trash-alt text-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4"><input type="checkbox"
+                      class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" /></td>
+                  <td class="px-6 py-4 font-medium text-gray-900 truncate max-w-xs">Introduction to Cloud Computing and
+                    AWS</td>
+                  <td class="px-6 py-4 text-gray-600 hidden md:table-cell">Emily White</td>
+                  <td class="px-6 py-4 text-gray-600 hidden sm:table-cell">15 Videos</td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full inline-block">Unlisted</span>
+                  </td>
+                  <td class="px-6 py-4 text-center space-x-2 flex justify-center items-center">
+                    <button title="View Playlist Videos" class="action-btn btn-view">
+                      <i class="fas fa-eye text-lg"></i>
+                    </button>
+                    <button title="Edit Playlist" class="action-btn btn-edit">
+                      <i class="fas fa-edit text-lg"></i>
+                    </button>
+                    <button title="Delete Playlist" class="action-btn btn-delete">
+                      <i class="fas fa-trash-alt text-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+                <!-- More playlists would go here -->
+              </tbody>
+            </table>
+
+            <!-- Simple Pagination/Footer -->
+            <div
+              class="px-6 py-4 bg-white flex justify-between items-center text-sm border-t border-gray-100 rounded-b-xl">
+              <p class="text-gray-600">Showing 1 to 10 of 45 results</p>
+              <div class="flex space-x-1">
+                <button
+                  class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 text-gray-700 disabled:opacity-50"
+                  disabled>Previous</button>
+                <button class="px-3 py-1 border border-blue-600 bg-blue-600 text-white rounded-lg">1</button>
+                <button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 text-gray-700">2</button>
+                <button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 text-gray-700">3</button>
+                <button
+                  class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 text-gray-700">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <!-- Create Playlist Modal -->
+    <div id="modal-overlay" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+          <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+            <i class="fas fa-plus-circle text-blue-600 mr-3"></i>
+            Create New Playlist
+          </h2>
+          <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <i class="fas fa-times text-2xl"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <form id="playlist-form" class="p-6 space-y-5">
+          <div>
+            <label for="playlist-title" class="block text-sm font-semibold text-gray-700 mb-2">
+              Playlist Title <span class="text-red-500">*</span>
+            </label>
+            <input type="text" id="playlist-title" required placeholder="Enter playlist title"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none" />
+          </div>
+
+          <div>
+            <label for="playlist-description" class="block text-sm font-semibold text-gray-700 mb-2">
+              Description
+            </label>
+            <textarea id="playlist-description" rows="3" placeholder="Enter playlist description (optional)"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none resize-none"></textarea>
+          </div>
+
+          <div>
+            <label for="playlist-status" class="block text-sm font-semibold text-gray-700 mb-2">
+              Status <span class="text-red-500">*</span>
+            </label>
+            <select id="playlist-status" required
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white">
+              <option value="true">Public</option>
+              <option value="false">Private</option>
+            </select>
+          </div>
+        </form>
+
+        <!-- Modal Footer -->
+        <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+          <button id="cancel-modal-btn" type="button"
+            class="px-6 py-2.5 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+            Cancel
+          </button>
+          <button id="submit-playlist-btn" type="submit"
+            class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+            <i class="fas fa-check mr-2"></i>Create Playlist
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://vstad-api.cheatdev.online/api/playlists";
+    const AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzcyMjgwMDIzfQ.WJeXtbwxJmeMg80TY-xB_dQSY8qHgxtaNQhi-owaLko";
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    // Modal Management
+    const modalOverlay = document.getElementById('modal-overlay');
+    const createBtn = document.getElementById('create-playlist-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const cancelModalBtn = document.getElementById('cancel-modal-btn');
+    const submitBtn = document.getElementById('submit-playlist-btn');
+    const playlistForm = document.getElementById('playlist-form');
+
+    function openModal() {
+      modalOverlay.classList.remove('hidden');
+      playlistForm.reset();
+    }
+
+    function closeModal() {
+      modalOverlay.classList.add('hidden');
+    }
+
+    createBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    submitBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('playlist-title').value.trim();
+      const description = document.getElementById('playlist-description').value.trim();
+      const isPublic = document.getElementById('playlist-status').value === 'true';
+
+      if (!title) {
+        displayFeedback('Please fill in the playlist title', 'error');
+        return;
+      }
+
+      try {
+        await createNewPlaylist(title, description, isPublic);
+        closeModal();
+      } catch (error) {
+        // Error already handled
+      }
+    });
+
+    function displayFeedback(message, type) {
+      const feedbackDiv = document.getElementById('playlist-feedback');
+      if (!feedbackDiv) return;
+
+      feedbackDiv.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+
+      let icon = '';
+      let classList = '';
+
+      if (type === 'success') {
+        icon = '<i class="fas fa-check-circle mr-2 text-xl"></i>';
+        classList = 'bg-green-100 text-green-800';
+      } else if (type === 'error') {
+        icon = '<i class="fas fa-times-circle mr-2 text-xl"></i>';
+        classList = 'bg-red-100 text-red-800';
+      }
+
+      feedbackDiv.classList.add(classList);
+      feedbackDiv.innerHTML = icon + message;
+      feedbackDiv.classList.remove('hidden');
+
+      setTimeout(() => {
+        feedbackDiv.classList.add('hidden');
+      }, 7000);
+    }
+
+    function createPlaylistRow(playlist) {
+      const isPublic = playlist.is_public;
+      const status = isPublic ? 'Public' : 'Private';
+      const statusColor = isPublic ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+      const statusBadge = `<span class="${statusColor} text-xs font-medium px-2.5 py-0.5 rounded-full inline-block">${status}</span>`;
+
+      return `
+    <tr class="hover:bg-blue-50 transition-colors" data-playlist-id="${playlist.id}">
+      <td class="px-6 py-4"><input type="checkbox" class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" /></td>
+      <td class="px-6 py-4 font-medium text-gray-900 truncate max-w-xs">${playlist.title}</td>
+      <td class="px-6 py-4 text-gray-600 hidden md:table-cell">Creator #${playlist.creator_id}</td>
+      <td class="px-6 py-4 text-gray-600 hidden sm:table-cell">0 Videos</td>
+      <td class="px-6 py-4">${statusBadge}</td>
+      <td class="px-6 py-4 text-center space-x-2 flex justify-center items-center">
+        <button title="View Playlist Videos" class="action-btn btn-view">
+  </script>
+  <script>
+
+  </script>
 </body>
+
+</html>
+</body>
+
 </html>
