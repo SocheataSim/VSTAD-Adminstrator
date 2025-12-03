@@ -13,247 +13,281 @@
     <meta property="og:image" content="https://i.pinimg.com/736x/5e/77/09/5e7709769cd1d2d23c610653211e443f.jpg" />
     <meta property="og:site_name" content="VSTAD Platform" />
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../src/output.css">
-</head>
-<body>
-    <!-- Load Tailwind CSS from CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Lucide Icons for vector graphics -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
     <script>
-        // Initialize Tailwind configuration if needed, but the user's provided code uses standard colors.
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                },
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                    }
+                }
             }
         }
     </script>
-
     <style>
-        /* Custom font import (Inter is the default for Tailwind) */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7f9fc; /* Light background as seen in the image */
         }
-        /* Custom scrollbar styling for better aesthetics */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1; /* slate-300 */
+            background: #cbd5e1;
             border-radius: 3px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; /* slate-400 */
-        }
-        /* Utility to make the sidebar appear instantly on mobile toggle */
-        .is-open {
-            transform: translateX(0) !important;
+            background: #94a3b8;
         }
     </style>
 </head>
-<body>
-
-    <div class="flex flex-1 min-h-screen">
+<body class="transition-colors duration-300 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        <!-- Mobile Sidebar Overlay -->
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden" onclick="toggleSidebar()"></div>
 
         <!-- Sidebar -->
-        <nav id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out border-r border-gray-200 flex flex-col pt-4 pb-6 shadow-xl lg:shadow-none custom-scrollbar overflow-y-auto">
-            
-            <div class="flex items-center justify-between px-4 pb-4 border-b lg:hidden">
-                <div class="text-xl font-bold text-gray-800">Dashboard</div>
-                <button id="sidebar-close" class="p-2 text-gray-700 rounded-lg hover:bg-gray-100">
-                    <i data-lucide="x" class="w-6 h-6"></i>
+        <aside id="sidebar" class="bg-gray-50 dark:bg-gray-900 dark:text-white fixed md:static inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between md:block">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-line text-white text-sm"></i>
+                    </div>
+                    <span class="text-lg font-bold text-gray-800 dark:text-white">Dashboard</span>
+                </div>
+
+                <!-- Close on mobile -->
+                <button class="md:hidden text-gray-700 dark:text-gray-300 text-xl" onclick="toggleSidebar()">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
 
-            <div class="hidden lg:block px-4 pb-6">
-                <div class="text-xl font-extrabold text-gray-900">Dashboard</div>
-            </div>
+            <nav class="p-6 space-y-2">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg font-medium">
+                    <i class="fas fa-home w-5"></i> <span>Overview</span>
+                </a>
 
-            <div class="flex-1 px-4 space-y-2 pt-4">
-                <!-- Active Link: Overview -->
-                <a href="overview.html" class="flex items-center p-3 text-sm font-semibold text-blue-700 bg-blue-50 rounded-xl transition duration-150">
-                    <i data-lucide="pie-chart" class="w-5 h-5 mr-3"></i>
-                    Overview
+                <a href="users_management.html" class="flex items-center gap-3 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-800 rounded-lg">
+                    <i class="fas fa-users w-5"></i> <span>User Management</span>
                 </a>
-                <a href="users_management.html" class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150">
-                    <i data-lucide="users" class="w-5 h-5 mr-3"></i>
-                    Users Management
-                </a>
-                <a href="videos_management.html" class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150">
-                    <i data-lucide="video" class="w-5 h-5 mr-3"></i>
-                    Videos Management
-                </a>
-                <a href="playlist_management.html" class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150">
-                    <i data-lucide="list-video" class="w-5 h-5 mr-3"></i>
-                    Playlist Management
-                </a>
-                <a href="upload_video.html" class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150">
-                    <i data-lucide="upload" class="w-5 h-5 mr-3"></i>
-                    Upload Video
-                </a>
-            </div>
-            
-            <div class="px-4 pt-6 border-t border-gray-200 mt-auto">
-                <a href="#" class="flex items-center p-3 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-xl transition duration-150">
-                    <i data-lucide="palette" class="w-5 h-5 mr-3"></i>
-                    Themes
-                </a>
-                <a href="#" class="flex items-center p-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl mt-2 transition duration-150">
-                    <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
-                    Log Out
-                </a>
-            </div>
-        </nav>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 lg:ml-64 p-4 md:p-8 custom-scrollbar overflow-y-auto">
-            
-            <!-- Header/Search Bar -->
-            <header class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-                <div class="relative w-full sm:w-80 lg:w-96 flex ">
-                    <input type="text" placeholder="Search" class=" py-3 pl-12 pr-4 text-sm bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <i data-lucide="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"></i>
-                </div>
-                
-                <div class="flex items-center space-x-3">
-                    <span class="text-sm font-semibold text-gray-800 hidden sm:inline">VSTAD</span>
-                    <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm overflow-hidden border-2 border-white shadow-md">
-                        <img src="../images/logo.png" alt="VSTAD User" class="w-full h-full object-cover">
-                    </div>
-                    <!-- Mobile Sidebar Toggle -->
-                    <button id="sidebar-open" class="lg:hidden p-2 text-gray-700 rounded-lg hover:bg-gray-100">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
+                <a href="videos_management.html" class="flex items-center gap-3 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-800 rounded-lg">
+                    <i class="fa-regular fa-circle-play w-5"></i>
+                    <span>Video Management</span>
+                </a>
+
+                <a href="playlist_management.html" class="flex items-center gap-3 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-800 rounded-lg">
+                    <i class="fas fa-list w-5"></i> <span>Playlist Management</span>
+                </a>
+
+                <a href="Upload_video_page.html" class="flex items-center gap-3 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-800 rounded-lg">
+                    <i class="fas fa-cloud-upload-alt w-5"></i>
+                    <span>Upload Video</span>
+                </a>
+            </nav>
+
+            <div class="absolute bottom-6 w-full px-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+                <div class="relative">
+                    <button onclick="toggleThemeDropdown()" class="w-full flex items-center gap-3 px-4 py-2 text-gray-700 dark:text-white hover:bg-blue-50 dark:hover:bg-blue-800 rounded-lg focus:outline-none">
+                        <i class="fa-solid fa-palette w-5"></i><span>Theme</span>
+                        <i class="ml-auto text-xs transition-transform duration-200" id="themeChevron"></i>
                     </button>
+                    
+                    <div id="themeDropdown" class="hidden absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
+                        <button onclick="setTheme('dark')" class="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-left transition-colors">
+                            <i class="fas fa-moon w-5"></i> <span>Dark Theme</span>
+                        </button>
+                        <button onclick="setTheme('light')" class="w-full flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-left transition-colors">
+                            <i class="fas fa-sun w-5"></i> <span>Light Theme</span>
+                        </button>
+                    </div>
+                </div>
+
+                <a href="#" class="flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg">
+                    <i class="fas fa-sign-out-alt w-5"></i><span>Log Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-auto">
+            <!-- Header -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-20">
+                <div class="flex items-center justify-between px-4 md:px-8 py-4">
+                    <!-- Hamburger for mobile -->
+                    <button class="md:hidden text-gray-700 dark:text-gray-300 text-2xl mr-3" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <!-- Search -->
+                    <div class="flex items-center gap-4 flex-1 max-w-md">
+                        <div class="relative w-full">
+                            <input type="text" placeholder="Search" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2 text-black dark:text-white px-4 py-2 rounded-lg text-sm font-medium">
+                            <img class="w-8 rounded-full" src="../asset/logo.png" alt="Logo vstad">
+                            <span class="text-black dark:text-white">VSTAD</span>
+                        </div>
+                    </div>
                 </div>
             </header>
-            
-            <!-- Main Overview Content -->
-            
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-medium text-gray-500 uppercase">Total Videos</p>
-                            <h3 class="text-2xl font-bold text-gray-800 mt-2" id="totalVideos">-</h3>
+
+            <!-- Main Content -->
+            <div class="p-4 md:p-8 custom-scrollbar">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Total Videos</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-2" id="totalVideos">-</h3>
+                            </div>
+                            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
+                                <i data-lucide="video" class="w-6 h-6"></i>
+                            </div>
                         </div>
-                        <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                            <i data-lucide="video" class="w-6 h-6"></i>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Total Users</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-2" id="totalUsers">-</h3>
+                            </div>
+                            <div class="p-2 bg-green-50 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Total Likes</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-2" id="totalLikes">-</h3>
+                            </div>
+                            <div class="p-2 bg-red-50 dark:bg-red-900/30 rounded-lg text-red-600 dark:text-red-400">
+                                <i data-lucide="heart" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Total Playlists</p>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mt-2" id="totalPlaylists">8</h3>
+                            </div>
+                            <div class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
+                                <i data-lucide="list-video" class="w-6 h-6"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-medium text-gray-500 uppercase">Total Users</p>
-                            <h3 class="text-2xl font-bold text-gray-800 mt-2" id="totalUsers">-</h3>
-                        </div>
-                        <div class="p-2 bg-green-50 rounded-lg text-green-600">
-                            <i data-lucide="users" class="w-6 h-6"></i>
-                        </div>
+
+                <!-- Most Views Videos -->
+                <section class="mb-10">
+                    <div class="flex justify-center">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center justify-center sm:justify-start">
+                            <i data-lucide="trending-up" class="w-6 h-6 mr-2 text-red-500"></i>
+                            Most Views Videos
+                        </h2>
                     </div>
-                </div>
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-medium text-gray-500 uppercase">Total Likes</p>
-                            <h3 class="text-2xl font-bold text-gray-800 mt-2" id="totalLikes">-</h3>
-                        </div>
-                        <div class="p-2 bg-red-50 rounded-lg text-red-600">
-                            <i data-lucide="heart" class="w-6 h-6"></i>
-                        </div>
+                    
+                    <div id="mostViewsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
                     </div>
-                </div>
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-medium text-gray-500 uppercase">Total Playlists</p>
-                            <h3 class="text-2xl font-bold text-gray-800 mt-2" id="totalPlaylists">8</h3>
-                        </div>
-                        <div class="p-2 bg-purple-50 rounded-lg text-purple-600">
-                            <i data-lucide="list-video" class="w-6 h-6"></i>
-                        </div>
+                </section>
+
+                <hr class="border-gray-200 dark:border-gray-700 my-8">
+
+                <!-- Most Liked Videos -->
+                <section class="mb-10">
+                    <div class="flex justify-center">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center justify-center sm:justify-start">
+                            <i data-lucide="heart" class="w-6 h-6 mr-2 text-red-500 fill-red-500"></i>
+                            Most Liked Videos
+                        </h2>
                     </div>
-                </div>
+                    
+                    <div id="mostLikedContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <hr class="border-gray-200 dark:border-gray-700 my-8">
+
+                <!-- Most Commented Videos -->
+                <section class="mb-10">
+                    <div class="flex justify-center">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center justify-center sm:justify-start">
+                            <i data-lucide="message-square" class="w-6 h-6 mr-2 text-gray-700 dark:text-gray-300"></i>
+                            Most Commented Videos
+                        </h2>
+                    </div>
+                    
+                    <div id="mostCommentedContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
             </div>
-
-            <!-- Most Views Videos -->
-            <section class="mb-10">
-                <div class="flex justify-center">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center justify-center sm:justify-start">
-                    <i data-lucide="trending-up" class="w-6 h-6 mr-2 text-red-500"></i>
-                    Most Views Videos
-                </h2>
-                </div>
-                
-                <div id="mostViewsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                    <!-- Dynamic Content -->
-                </div>
-            </section>
-
-            <hr class="border-gray-200 my-8">
-
-            <!-- Most Liked Videos -->
-            <section class="mb-10">
-                <div class="flex justify-center">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center justify-center sm:justify-start">
-                    <i data-lucide="heart" class="w-6 h-6 mr-2 text-red-500 fill-red-500"></i>
-                    Most Liked Videos
-                </h2>
-                </div>
-                
-                <div id="mostLikedContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                    <!-- Dynamic Content -->
-                </div>
-            </section>
-
-            <hr class="border-gray-200 my-8">
-
-            <!-- Most Commented Videos -->
-            <section class="mb-10">
-                <div class="flex justify-center">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center justify-center sm:justify-start">
-                    <i data-lucide="message-square" class="w-6 h-6 mr-2 text-gray-700"></i>
-                    Most Commented Videos
-                </h2>
-                </div>
-                
-                <div id="mostCommentedContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                    <!-- Dynamic Content -->
-                </div>
-            </section>
-        
         </main>
+    </div>
 
-    <!-- JavaScript for Mobile Sidebar Toggle and Lucide Icons -->
     <script>
+        // Initialize Lucide Icons
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Lucide Icons
             lucide.createIcons();
+        });
 
-            const sidebar = document.getElementById('sidebar');
-            const openBtn = document.getElementById('sidebar-open');
-            const closeBtn = document.getElementById('sidebar-close');
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("overlay");
+            sidebar.classList.toggle("-translate-x-full");
+            overlay.classList.toggle("hidden");
+        }
 
-            // Toggle logic
-            if (openBtn && closeBtn && sidebar) {
-                openBtn.addEventListener('click', () => {
-                    sidebar.classList.add('is-open');
-                });
-                closeBtn.addEventListener('click', () => {
-                    sidebar.classList.remove('is-open');
-                });
+        function toggleThemeDropdown() {
+            const dropdown = document.getElementById('themeDropdown');
+            const chevron = document.getElementById('themeChevron');
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+                if (chevron) chevron.classList.toggle('rotate-180');
+            }
+        }
 
-                // Optional: Close sidebar when clicking outside on mobile
-                // Note: This needs more complex logic to prevent closing when clicking inside the sidebar
-                // For simplicity, we stick to the explicit close button.
+        function setTheme(theme) {
+            const html = document.documentElement;
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                html.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+            toggleThemeDropdown();
+        }
+
+        // Initialize theme on page load
+        if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('themeDropdown');
+            const button = document.querySelector('button[onclick="toggleThemeDropdown()"]');
+            if (dropdown && !dropdown.contains(e.target) && button && !button.contains(e.target) && !dropdown.classList.contains('hidden')) {
+                toggleThemeDropdown();
             }
         });
     </script>
