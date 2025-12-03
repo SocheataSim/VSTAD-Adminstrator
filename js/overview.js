@@ -93,17 +93,17 @@ function createVideoCard(video, statType, iconName) {
     const timeAgo = formatTimeAgo(video.created_at);
 
     return `
-        <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 cursor-pointer">
+        <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 cursor-pointer">
             <img src="${thumbnailUrl}" alt="${video.title}" class="w-full h-40 object-cover">
             <div class="p-4">
                 <div class="flex items-center mb-2">
                     <div class="overflow-hidden h-6 w-6 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs mr-2">
                         <img src="${uploaderImage}" alt="${uploaderName}" class="w-full h-full object-cover">
                     </div> 
-                    <span class="text-sm font-semibold text-gray-800 truncate">${uploaderName}</span>
+                    <span class="text-sm font-semibold text-gray-800 dark:text-white truncate">${uploaderName}</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 leading-tight mb-2 truncate" title="${video.title}">${video.title}</h3>
-                <p class="text-xs text-gray-500 flex items-center">
+                <h3 class="text-base font-bold text-gray-900 leading-tight dark:text-white mb-2 truncate" title="${video.title}">${video.title}</h3>
+                <p class="text-xs text-gray-500 dark:text-white flex items-center">
                     <i data-lucide="${iconName}" class="inline w-3 h-3 mr-1"></i> ${formattedCount} ${statLabel} · ${timeAgo}
                 </p>
             </div>

@@ -821,7 +821,7 @@ function createPlaylistRow(playlist) {
 
     return `
         <tr class="hover:bg-blue-50 transition-colors" data-id="${playlist.id}">
-            <td class="px-6 py-4 font-medium text-gray-900 truncate max-w-xs">${escapeHtml(playlist.title)}</td>
+            <td class="px-6 py-4 font-medium text-gray-900 dark:text-white truncate max-w-xs">${escapeHtml(playlist.title)}</td>
             <td class="px-6 py-4 text-gray-600 hidden md:table-cell">${escapeHtml(creatorName)}</td>
             <td class="px-6 py-4 text-gray-600 hidden sm:table-cell">${videoCount} Video${videoCount !== 1 ? 's' : ''}</td>
             <td class="px-6 py-4">${statusBadge}</td>

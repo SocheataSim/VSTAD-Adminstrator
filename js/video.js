@@ -30,7 +30,7 @@ async function getAllVideos() {
         // -------------------
 
         return `
-        <tr class="hover:bg-gray-50 transition bg-gray-50 dark:bg-gray-700">
+        <tr class="hover:bg-gray-50 transition bg-gray-50 dark:bg-[#1F2937]">
                   <td class="px-6 py-1.5 text-sm text-gray-600">
                     <img src="${video.thumbnail_url}" alt="video" class="w-9 h-9 object-cover rounded-[9px]">
                   </td>
