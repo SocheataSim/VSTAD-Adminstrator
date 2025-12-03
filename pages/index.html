@@ -218,7 +218,6 @@
                     </div>
                     
                     <div id="mostLikedContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                        <!-- Dynamic Content -->
                     </div>
                 </section>
 
@@ -234,7 +233,6 @@
                     </div>
                     
                     <div id="mostCommentedContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                        <!-- Dynamic Content -->
                     </div>
                 </section>
             </div>
@@ -242,7 +240,6 @@
     </div>
 
     <script>
-        // Initialize Lucide Icons
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
         });
@@ -275,14 +272,12 @@
             toggleThemeDropdown();
         }
 
-        // Initialize theme on page load
         if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             const dropdown = document.getElementById('themeDropdown');
             const button = document.querySelector('button[onclick="toggleThemeDropdown()"]');

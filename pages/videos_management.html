@@ -135,8 +135,10 @@
           </h1>
 
           <!-- Table -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-x-auto border border-gray-100 dark:border-gray-700">
-            <table class="w-full min-w-[900px]">
+          <div
+            class="bg-white rounded-lg shadow overflow-hidden overflow-x-auto"
+          >
+            <table class="w-full">
               <thead>
                 <tr class="bg-blue-600 dark:bg-blue-700 text-white">
                   <th class="px-6 py-4 text-left text-sm font-semibold">
@@ -161,17 +163,104 @@
                     Liked
                   </th>
                   <th class="px-6 py-4 text-left text-sm font-semibold">
+                    Status
+                  </th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody id="table-video" class="divide-y divide-gray-200 dark:divide-gray-700">
-                <!-- videos list -->
+              <tbody id="table-video" class="divide-y hover:bg-gray-50 dark:bg- dark:divide-gray-700">
               </tbody>
             </table>
           </div>
         </div>
       </main>
+    </div>
+
+    <div
+      id="edit-modal"
+      class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+        <div class="gap-3 mb-4 text-center">
+          <h2 class="text-lg font-semibold">Edit Video</h2>
+        </div>
+
+        <form id="edit-video-form">
+          <input type="hidden" id="video-id" value="" />
+
+          <div class="mb-4">
+            <label for="status" class="block text-sm font-medium text-gray-700"
+              >Video Status</label
+            >
+            <select
+              id="status"
+              class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-600 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+
+          <div class="flex gap-4">
+            <button
+              type="button"
+              onclick="closeModal('edit-modal')"
+              class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-md transition"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- delete video -->
+    <div
+      id="delete-modal"
+      class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50"
+    >
+      <div
+        class="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 text-center"
+      >
+        <div class="flex flex-col items-center gap-4">
+          <div
+            class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center"
+          >
+            <i class="fas fa-trash text-2xl"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-center text-gray-800">
+            Delete Video
+          </h2>
+          <p class="w-full text-center">
+            Are you sure you want to delete this video? This action cannot be
+            undone.
+          </p>
+        </div>
+
+        <div class="flex gap-4 mt-5">
+          <button
+            type="button"
+            onclick="closeModal('delete-modal')"
+            class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-md transition"
+          >
+            Cancel
+          </button>
+          <button
+            id="delete-btn"
+            class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -203,14 +292,12 @@
         toggleThemeDropdown();
       }
 
-      // Initialize theme on page load
       if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
       }
 
-      // Close dropdown when clicking outside
       document.addEventListener('click', (e) => {
         const dropdown = document.getElementById('themeDropdown');
         const button = document.querySelector('button[onclick="toggleThemeDropdown()"]');

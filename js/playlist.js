@@ -816,7 +816,6 @@ function createPlaylistRow(playlist) {
     const statusColor = isPublic ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
     const statusBadge = `<span class="${statusColor} text-xs font-medium px-2.5 py-0.5 rounded-full inline-block">${status}</span>`;
 
-    // Get video count from the fetched data
     const videoCount = playlist.video_count || 0;
     const creatorName = playlist.creator_name || `Creator #${playlist.creator_id}`;
 
