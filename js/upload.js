@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cancel button
     cancelBtn.addEventListener('click', () => {
-        window.location.href = './overview_page.html'; // Or wherever you want to go
+        window.location.href = '../pages/index.html'; // Or wherever you want to go
     });
 
     // Upload button
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Optional: Redirect after a delay
                     setTimeout(() => {
-                        window.location.href = './Videos_management.html';
+                        window.location.href = '../pages/videos_management.html';
                     }, 3000);
                 } else {
                     let errorMsg = 'Upload failed.';
