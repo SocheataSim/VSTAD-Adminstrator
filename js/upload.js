@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cancel button
     cancelBtn.addEventListener('click', () => {
-        window.location.href = '../pages/index.html'; // Or wherever you want to go
+        window.location.href = '../index.html'; // Or wherever you want to go
     });
 
     // Upload button
